@@ -1,4 +1,5 @@
-<ion-header [translucent]="true">
+<!-- Elemento que se muestra cuando se hace scroll -->
+<ion-header [translucent]="true" mode="ios">
   <ion-toolbar>
     <ion-title>
       Aiep's news
@@ -7,12 +8,34 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
+  <ion-header collapse="condense" mode="ios">
     <ion-toolbar>
       <ion-title size="large">Aiep's news</ion-title>
     </ion-toolbar>
   </ion-header>
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="12" size-lg="3" size-md="4" size-sm="6" size-xs="12" *ngFor="let article of articles, let i = index">
+        <ion-card>
+          <ion-card-subtitle class="ion-margin">
+            <ion-row class="ion-align-items-center">
+              <ion-col class="ion-margin">
+                <span class="text-primary">{{i+1}}. </span>
+                <span class="article-source-name">{{article.source.name}}</span>
+              </ion-col>
+            </ion-row>
+          </ion-card-subtitle>
+          <ion-card-title class="ion-padding-horizontal ion-margin-bottom">
+            {{article.title}}
+          </ion-card-title>
+          <ion-img [src]="article.urlToImage"></ion-img>
+          <ion-card-content>
+            <p>{{article.description}}</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
-  <p *ngFor="let article of articles">{{article.title}}</p>
 
 </ion-content>
