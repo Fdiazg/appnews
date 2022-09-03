@@ -1,17 +1,25 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" mode="ios">
   <ion-toolbar>
     <ion-title>
-      Tab 2
+      Headers
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
+  <ion-header collapse="condense" mode="ios">
     <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
+      <ion-title size="large">Headers</ion-title>
     </ion-toolbar>
   </ion-header>
-
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+  <ion-segment [value]="selectedCategory" (ionChange)="segmentChanged($event)" mode="md" scrollable="true">
+    <ion-segment-button [value]="category" *ngFor="let category of categories">
+      <ion-label>{{category}}</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  <app-articles [articles]="articles" ></app-articles>
+  <ion-infinite-scroll threshold="25%" position="bottom" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando más datos...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

@@ -13,29 +13,10 @@
       <ion-title size="large">Aiep's news</ion-title>
     </ion-toolbar>
   </ion-header>
-  <ion-grid fixed>
-    <ion-row>
-      <ion-col size="12" size-lg="3" size-md="4" size-sm="6" size-xs="12" *ngFor="let article of articles, let i = index">
-        <ion-card>
-          <ion-card-subtitle class="ion-margin">
-            <ion-row class="ion-align-items-center">
-              <ion-col class="ion-margin">
-                <span class="text-primary">{{i+1}}. </span>
-                <span class="article-source-name">{{article.source.name}}</span>
-              </ion-col>
-            </ion-row>
-          </ion-card-subtitle>
-          <ion-card-title class="ion-padding-horizontal ion-margin-bottom">
-            {{article.title}}
-          </ion-card-title>
-          <ion-img [src]="article.urlToImage"></ion-img>
-          <ion-card-content>
-            <p>{{article.description}}</p>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-
+  <app-articles [articles]="articles"></app-articles>
+  <ion-infinite-scroll threshold="25%" position="bottom" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando más datos...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 
 </ion-content>
