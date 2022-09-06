@@ -3,6 +3,7 @@ import { Article } from 'src/app/interfaces';
 import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
 import { Share } from '@capacitor/share';
 import { ActionSheetController } from '@ionic/angular';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-article',
@@ -15,7 +16,8 @@ export class ArticleComponent implements OnInit {
 
   constructor(
     private iab: InAppBrowser,
-    private actionSheetCtrl: ActionSheetController
+    private actionSheetCtrl: ActionSheetController,
+    private storageService: StorageService
   ) {}
 
   ngOnInit() {}
@@ -27,25 +29,28 @@ export class ArticleComponent implements OnInit {
   }
 
   async openMenu() {
+
+    const inFavorites = this.storageService.articlesInFavorites(this.article);
+
     const actionSheet = await this.actionSheetCtrl.create({
       header: 'options',
       buttons: [
         {
           text: 'Share',
           icon: 'share-outline',
-          handler: () => this.shareArticle(),
+          handler: () => this.shareArticle()
         },
         {
-          text: 'Favorites',
-          icon: 'heart-outline',
-          handler: () => this.onToggleFavorite(),
+          text: inFavorites ? 'Remove Favorites' : 'Favorites',
+          icon: inFavorites ? 'heart' : 'heart-outline',
+          handler: () => this.onToggleFavorite()
         },
         {
           text: 'Cancel',
           icon: 'close-outline',
-          role: 'cancel',
-        },
-      ],
+          role: 'cancel'
+        }
+      ]
     });
     await actionSheet.present();
   }
@@ -59,7 +64,8 @@ export class ArticleComponent implements OnInit {
     });
   }
 
-  onToggleFavorite() {
+  async onToggleFavorite() {
     console.log('share article');
+    await this.storageService.saveOrRemoveArticle(this.article);
   }
 }
